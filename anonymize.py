@@ -11,23 +11,13 @@ from algorithms import (
         tdg_anonymize,
         age, hierarchy, l1sub)
 from utils.data import read_raw, write_anon
+from utils.types import AnonMethod, Dataset
 
 parser = argparse.ArgumentParser('K-Anonymize')
-
 parser.add_argument('--method', type=str, default='mondrian',
                     help="K-Anonymity Method")
 parser.add_argument('--k', type=int, default=2,
                     help="K-Anonymity")
-
-
-ADULT = 'adult'
-CAHOUSING = 'cahousing'
-CMC = 'cmc'
-MGM = 'mgm'
-
-MONDRIAN = 'mondrian'
-CLUSTER = 'cluster'
-TOPDOWN = "topdown"
 
 def main(args, config):
 
@@ -60,28 +50,32 @@ def main(args, config):
     data = pd.read_csv(data_path, delimiter=';')
     ATT_NAMES = list(data.columns)
     
-    if config.project_name == ADULT:
-
+    if config.project_name == Dataset.ADULT:
         QI_INDEX = [1, 2, 3, 4, 5, 6, 7, 8]
         target_var = 'salary-class'
         IS_CAT2 = [True, False, True, True, True, True, True, True]
         max_numeric = {"age": 50.5}
+    elif config.project_name == Dataset.CMC:
+        QI_INDEX = [1, 2, 4]
+        target_var = 'method'
+        IS_CAT2 = [False, True, False]
+        max_numeric = {"age": 32.5, "children": 8}
+    elif config.project_name == Dataset.MGM:
+        QI_INDEX = [1, 2, 3, 4, 5]
+        target_var = 'severity'
+        IS_CAT2 = [True, False, True, True, True]
+        max_numeric = {"age": 50.5}
+    elif config.project_name == Dataset.CAHOUSING:
+        QI_INDEX = [1, 2, 3, 8, 9]
+        target_var = 'ocean_proximity'
+        IS_CAT2 = [False, False, False, False, False]
+        max_numeric = {"latitude": 119.33, "longitude": 37.245, "housing_median_age": 32.5,
+                       "median_house_value": 257500, "median_income": 5.2035}
 
-        QI_NAMES = list(np.array(ATT_NAMES)[QI_INDEX])
-        IS_CAT = [True] * len(QI_INDEX)
-        SA_INDEX = [index for index in range(len(ATT_NAMES)) if index not in QI_INDEX]
-        SA_var = [ATT_NAMES[i] for i in SA_INDEX]
-
-        max_gen_level = [1, 4, 1, 2, 3, 2, 2, 2]
-        gen_strat = [
-            l1sub, age, l1sub,
-            hierarchy(os.path.join(gen_path, config.project_name), 'marital-status'),
-            hierarchy(os.path.join(gen_path, config.project_name), 'education'),
-            hierarchy(os.path.join(gen_path, config.project_name), 'native-country'),
-            hierarchy(os.path.join(gen_path, config.project_name), 'workclass'),
-            hierarchy(os.path.join(gen_path, config.project_name), 'occupation')
-        ]
-
+    QI_NAMES = list(np.array(ATT_NAMES)[QI_INDEX])
+    IS_CAT = [True] * len(QI_INDEX)
+    SA_INDEX = [index for index in range(len(ATT_NAMES)) if index not in QI_INDEX]
+    SA_var = [ATT_NAMES[i] for i in SA_INDEX]
 
     ATT_TREES = read_tree(
         gen_path, 
@@ -95,23 +89,23 @@ def main(args, config):
         config.project_name, 
         QI_INDEX, IS_CAT)
 
-    if args.method == MONDRIAN:
+    if args.method == AnonMethod.MONDRIAN:
         anon_data = mondrian_anonymize(
             ATT_TREES, 
             raw_data, args.k, 
             path, QI_INDEX, SA_INDEX)
-    elif args.method == CLUSTER:
+    elif args.method == AnonMethod.CLUSTER:
         anon_data = cluster_based_anonymize(
             ATT_TREES, 
             raw_data, args.k, 
             path, QI_INDEX, SA_INDEX, 
             'knn')
-    elif args.method == TOPDOWN:
+    elif args.method == AnonMethod.TOPDOWN:
         anon_data = tdg_anonymize(
             ATT_TREES, 
             raw_data, args.k, 
             path, QI_INDEX, SA_INDEX)
-                
+
     nodes_count = write_anon(
         anon_folder, 
         anon_data, 
