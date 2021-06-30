@@ -25,12 +25,10 @@ def extend_result(val):
     return val
 
 
-def mondrian_anonymize(att_trees, data, k, path, qi_index, SA_index):
+def mondrian_anonymize(att_trees, data, k, qi_index, sa_index, **kwargs):
     "run basic_mondrian for one time, with k=10"
-    print("K=%d" % k)
-    print("Mondrian")
     result, eval_result = mondrian(att_trees, reorder_columns(
-        copy.deepcopy(data), qi_index), k, len(qi_index), SA_index)
+        copy.deepcopy(data), qi_index), k, len(qi_index), sa_index)
     print("NCP %0.2f" % eval_result[0] + "%")
     print("Running time %0.2f" % eval_result[1] + "seconds")
     return restore_column_order(result, qi_index)

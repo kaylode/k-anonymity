@@ -26,11 +26,10 @@ def extend_result(val):
     return val
 
 
-def cluster_based_anonymize(att_trees, data, k, path, qi_index, SA_index, type_alg):
+def cluster_based_anonymize(att_trees, data, k, qi_index, sa_index, type_alg='knn', **kwargs):
     "run clustering_based_k_anon for one time, with k=10"
-    print("K=%d" % k)
     result, eval_result = clustering_based_k_anon(att_trees, reorder_columns(
-        copy.deepcopy(data), qi_index), k, len(qi_index), SA_index, type_alg)
+        copy.deepcopy(data), qi_index), k, len(qi_index), sa_index, type_alg)
     print("NCP %0.2f" % eval_result[0] + "%")
     print("Running time %0.2f" % eval_result[1] + "seconds")
     return restore_column_order(result, qi_index)
