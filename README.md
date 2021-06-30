@@ -9,5 +9,7 @@ python anonymize.py --method=<[mondrian|topdown|cluster]> --k=<k-anonymity>
 ```
 
 ## References:
-- https://courses.cs.duke.edu//fall12/compsci590.3/slides/lec3.pdf
-- https://arxiv.org/pdf/2102.04763.pdf
+- https://github.com/Nuclearstar/K-Anonymity
+- https://github.com/fhstp/k-AnonML
+- [Privacy in a Mobile-Social World](https://courses.cs.duke.edu//fall12/compsci590.3/slides/lec3.pdf)
+- [k-Anonymity in Practice: How Generalisation and Suppression Affect Machine Learning Classifiers](https://arxiv.org/pdf/2102.04763)
