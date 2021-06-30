@@ -7,3 +7,7 @@ To anonymize dataset, run:
 ```
 python anonymize.py --method=<[mondrian|topdown|cluster]> --k=<k-anonymity>
 ```
+
+## References:
+- https://courses.cs.duke.edu//fall12/compsci590.3/slides/lec3.pdf
+- https://arxiv.org/pdf/2102.04763.pdf
