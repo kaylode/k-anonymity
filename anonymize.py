@@ -21,6 +21,7 @@ parser.add_argument('--k', type=int, default=2,
 class Anonymizer:
     def __init__(self, args, config):
         self.method = args.method
+        assert self.method in ["mondrian", "topdown", "cluster"]
         self.k = args.k
         self.data_name = config.project_name
         

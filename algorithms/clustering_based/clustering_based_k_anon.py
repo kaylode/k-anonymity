@@ -8,6 +8,7 @@ import operator
 import random
 import time
 from functools import cmp_to_key
+from tqdm import tqdm
 
 from algorithms.basic_mondrian.models.numrange import NumRange
 from algorithms.basic_mondrian.utils.utility import (cmp_str, get_num_list_from_str,
@@ -461,7 +462,7 @@ def clustering_based_k_anon(att_trees, data, k, QI_num, SA_num, type_alg):
         return (0, (0, 0))
     rtime = float(time.time() - start_time)
     ncp = 0.0
-    for cluster in clusters:
+    for cluster in tqdm(clusters):
         final_result = []
         for i in range(len(cluster)):
             # Custom! For non QI Values

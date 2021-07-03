@@ -9,6 +9,7 @@ import pdb
 import random
 import time
 from functools import cmp_to_key
+from tqdm import tqdm
 
 from algorithms.basic_mondrian.models.numrange import NumRange
 from algorithms.basic_mondrian.utils.utility import cmp_str, get_num_list_from_str
@@ -298,7 +299,7 @@ def Top_Down_Greedy_Anonymization(att_trees, data, k, QI_num, SA_num):
     init(att_trees, data, k, QI_num, SA_num)
     result = []
     middle = []
-    for i in range(QI_LEN):
+    for i in tqdm(range(QI_LEN)):
         if IS_CAT[i] is False:
             QI_RANGE.append(ATT_TREES[i].range)
             middle.append(ATT_TREES[i].value)
@@ -311,7 +312,7 @@ def Top_Down_Greedy_Anonymization(att_trees, data, k, QI_num, SA_num):
     rtime = float(time.time() - start_time)
     ncp = 0.0
     dp = 0.0
-    for sub_partition in RESULT:
+    for sub_partition in tqdm(RESULT):
         rncp = 0.0
         gen_result = sub_partition.middle
         rncp = NCP(gen_result)
