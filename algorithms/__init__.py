@@ -39,7 +39,7 @@ def k_anonymize(anon_params):
             anon_params["data"], 
             anon_params["qi_index"], 
             anon_params["sa_index"], 
-            type_alg='knn')
+            type_alg='kmember')
 
     if anon_params["name"] == AnonMethod.TOPDOWN:
         return tdg_anonymize(

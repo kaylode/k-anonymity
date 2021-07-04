@@ -22,6 +22,7 @@ class GenTree(object):
         self.parent = []
         self.child = []
         self.cover = {}
+        self.isleaf = isleaf
         if value is not None:
             self.value = value
             self.cover[value] = self
@@ -49,3 +50,15 @@ class GenTree(object):
         return number of leaf node covered by current node
         """
         return self.leaf_num
+
+    def num_leaves(self):
+        if self.isleaf:
+            return 0
+        else:
+            num_leaves = 0
+            for child in self.child:
+                if child.isleaf:
+                    num_leaves += 1
+                else:
+                    num_leaves += child.num_leaves()
+            return num_leaves
