@@ -3,6 +3,7 @@
 run basic_mondrian with given parameters
 """
 import copy
+from pdb import run
 import sys
 import os
 
@@ -26,25 +27,28 @@ def extend_result(val):
 
 
 def basic_mondrian_anonymize(k, att_trees, data, qi_index, sa_index, **kwargs):
-    "run basic_mondrian for one time, with k=10"
+    """
+    Basic Mondrian with K-Anonymity
+    """
     result, eval_result = mondrian(
         att_trees, 
         reorder_columns(copy.deepcopy(data), qi_index), 
         k, len(qi_index), sa_index)
 
-    print("NCP %0.2f" % eval_result[0] + "%")
-    print("Running time %0.2f" % eval_result[1] + "seconds")
-    return restore_column_order(result, qi_index)
+    ncp_score, runtime = eval_result
+
+    return restore_column_order(result, qi_index), ncp_score, runtime
 
 def mondrian_ldiv_anonymize(l, att_trees, data, qi_index, sa_index):
     """
-    run mondrian_l_diversity for one time, with l=5
+    Basic Mondrian with L-diversity
     """
-    print("L=%d" % l)
+    
     result, eval_result = mondrian_l_diversity(
         att_trees, 
         reorder_columns(copy.deepcopy(data), qi_index), 
         l, len(qi_index), sa_index)
-    print("NCP= %0.2f %%" % eval_result[0])
-    print("Running time %0.2f" % eval_result[1] + " seconds")
-    return restore_column_order(result, qi_index)
+    
+    ncp_score, runtime = eval_result
+    
+    return restore_column_order(result, qi_index), ncp_score, runtime

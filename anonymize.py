@@ -90,7 +90,8 @@ class Anonymizer:
 
         anon_params.update({'data': raw_data})
 
-        anon_data = k_anonymize(anon_params)
+        print(f"Anonymize with {self.method}")
+        anon_data, ncp_score, runtime = k_anonymize(anon_params)
 
         nodes_count = write_anon(
             self.anon_folder, 
@@ -98,6 +99,9 @@ class Anonymizer:
             header, 
             self.k, 0, 
             self.data_name)
+
+        print(f"NCP score: {ncp_score}%")
+        print(f"Time execution: {runtime}s")
 
 def main(args, config):
     anonymizer = Anonymizer(args, config)

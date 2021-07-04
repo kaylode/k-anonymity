@@ -33,8 +33,10 @@ def restore_num_to_cat(mapping_dict, data, qi_index, is_cat):
 
 
 def classic_mondrian_anonymize(k, data, qi_index, mapping_dict=None, is_cat=None, relax=False):
-    "run basic_mondrian for one time, with k=10"
-
+    """
+    Classic Mondrian with no hierarchies, K-Anonymity
+    """
+    
     result, eval_result = mondrian(
         copy.deepcopy(data), 
         k, relax, len(qi_index))
@@ -43,10 +45,8 @@ def classic_mondrian_anonymize(k, data, qi_index, mapping_dict=None, is_cat=None
 
     if mapping_dict is not None:
         restored = restore_num_to_cat(mapping_dict, result_in_order, qi_index, is_cat)
-    print(result[-1])    
-    print(restored[-1])
+        result_in_order = restored
+        
+    ncp_score, runtime = eval_result
 
-
-    print("NCP %0.2f" % eval_result[0] + "%")
-    print("Running time %0.2f" % eval_result[1] + "seconds")
-    return result_in_order
+    return result_in_order, ncp_score, runtime
