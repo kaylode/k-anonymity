@@ -1,10 +1,11 @@
 # Differential Privacy using K-Anonymity
 ## To-do list
 - [x] Run 3 methods on 4 datasets 
+- [x] Add L diversity, Classic Mondrian (no hierarchies)
 - [ ] Implement classification models (basic classifier, clustering)
-- [ ] Run experiment on 4 datasets x 3 methods x 2 ML models
+- [ ] Run experiment on 4 datasets x 5 methods x 2 ML models
 - [ ] Finish report
-- [ ] (Improvement) Add L-diversity, T-closeness method
+- [ ] (Improvement) T-closeness method
 
 
 ## Reports:
