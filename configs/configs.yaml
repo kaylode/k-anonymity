@@ -1,7 +1,0 @@
-settings:
-  #################   DATASET CONFIG   ###################
-
-  project_name: "adult"     # also the folder name of the dataset that under ./data folder
-  csv_path:    "adult.csv"
-  
-  

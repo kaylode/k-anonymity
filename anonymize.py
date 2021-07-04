@@ -4,7 +4,6 @@ import argparse
 import numpy as np
 import pandas as pd
 
-from configs import Config
 from algorithms import (
         k_anonymize,
         read_tree)
@@ -15,20 +14,23 @@ parser = argparse.ArgumentParser('K-Anonymize')
 parser.add_argument('--method', type=str, default='mondrian',
                     help="K-Anonymity Method")
 parser.add_argument('--k', type=int, default=2,
-                    help="K-Anonymity")
+                    help="K-Anonymity or L-Diversity")
+parser.add_argument('--dataset', type=str, default='adult',
+                    help="Dataset to anonymize")
 
 class Anonymizer:
-    def __init__(self, args, config):
+    def __init__(self, args):
         self.method = args.method
         assert self.method in ["mondrian", "topdown", "cluster", "mondrian_ldiv", "classic_mondrian"]
         self.k = args.k
-        self.data_name = config.project_name
-        
+        self.data_name = args.dataset
+        self.csv_path = args.data+'.csv'
+
         # Data path
-        self.path = os.path.join('data', config.project_name)  # trailing /
+        self.path = os.path.join('data', args.dataset)  # trailing /
 
         # Dataset path
-        self.data_path = os.path.join(self.path, config.csv_path)
+        self.data_path = os.path.join(self.path, self.csv_path)
 
         # Generalization hierarchies path
         self.gen_path = os.path.join(
@@ -38,7 +40,7 @@ class Anonymizer:
         # folder for all results
         res_folder = os.path.join(
             'results', 
-            config.project_name, 
+            args.dataset, 
             self.method)
 
         # path for anonymized datasets
@@ -103,12 +105,11 @@ class Anonymizer:
         print(f"NCP score: {ncp_score}%")
         print(f"Time execution: {runtime}s")
 
-def main(args, config):
-    anonymizer = Anonymizer(args, config)
+def main(args):
+    anonymizer = Anonymizer(args)
     anonymizer.anonymize()
     
 
 if __name__ == '__main__':
     args = parser.parse_args()
-    config = Config("./configs/configs.yaml")
-    main(args, config)
+    main(args)
