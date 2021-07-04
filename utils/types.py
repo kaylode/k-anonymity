@@ -38,6 +38,9 @@ class AnonMethod(Enum):
     # Cluster-based
     CLUSTER = 'cluster'
 
+    # Datafly
+    DATAFLY = 'datafly'
+
     def __str__(self):
         return self.value
 

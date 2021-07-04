@@ -21,10 +21,10 @@ parser.add_argument('--dataset', type=str, default='adult',
 class Anonymizer:
     def __init__(self, args):
         self.method = args.method
-        assert self.method in ["mondrian", "topdown", "cluster", "mondrian_ldiv", "classic_mondrian"]
+        assert self.method in ["mondrian", "topdown", "cluster", "mondrian_ldiv", "classic_mondrian", "datafly"]
         self.k = args.k
         self.data_name = args.dataset
-        self.csv_path = args.data+'.csv'
+        self.csv_path = args.dataset+'.csv'
 
         # Data path
         self.path = os.path.join('data', args.dataset)  # trailing /
@@ -90,17 +90,26 @@ class Anonymizer:
             anon_params.update({'mapping_dict': mapping_dict})
             anon_params.update({'is_cat': IS_CAT2})
 
+        if self.method == AnonMethod.DATAFLY:
+            anon_params.update({
+                'qi_names': QI_NAMES,
+                'csv_path': self.data_path,
+                'data_name': self.data_name,
+                'dgh_folder': self.gen_path,
+                'res_folder': self.anon_folder})
+
         anon_params.update({'data': raw_data})
 
         print(f"Anonymize with {self.method}")
         anon_data, ncp_score, runtime = k_anonymize(anon_params)
 
-        nodes_count = write_anon(
-            self.anon_folder, 
-            anon_data, 
-            header, 
-            self.k, 0, 
-            self.data_name)
+        if anon_data is not None:
+            nodes_count = write_anon(
+                self.anon_folder, 
+                anon_data, 
+                header, 
+                self.k, 0, 
+                self.data_name)
 
         print(f"NCP score: {ncp_score}%")
         print(f"Time execution: {runtime}s")

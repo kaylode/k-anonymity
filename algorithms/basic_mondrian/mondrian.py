@@ -108,10 +108,15 @@ def find_median(partition, dim):
     """
     frequency = frequency_set(partition, dim)
     splitVal = ''
-    value_list = list(frequency)
-    value_list.sort(key=cmp_to_key(cmp_str))
+    # value_list = list(frequency)
+    # value_list.sort(key=cmp_to_key(cmp_str))
+    # total = sum(frequency.values())
+    # middle = total / 2  
+
+    value_list = frequency.keys()
+    value_list.sort(cmp=cmp_str)
     total = sum(frequency.values())
-    middle = total / 2  
+    middle = total / 2
 
     if GL_L != 0:
         if middle < GL_L or len(value_list) <= 1:
@@ -238,7 +243,7 @@ def split_categorical(partition, dim, pwidth, pmiddle):
             if check_L_diversity(sub_group) is False:
                 flag = False
                 break
-        if GL_K != 0:
+        elif GL_K != 0:
             if len(sub_group) < GL_K:
                 flag = False
                 break
@@ -320,9 +325,12 @@ def init(att_trees, data, QI_num, SA_num, k=None, L=None):
     QI_RANGE = []
     if k is not None:
         GL_K = k
+    else:
+        GL_K = 0
     if L is not None:
         GL_L = L
-
+    else:
+        GL_L = 0
 
 def check_L_diversity(partition):
     """check if partition satisfy l-diversity
