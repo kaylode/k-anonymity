@@ -1,2 +1,2 @@
 from .utils import read_tree
-from .anonymizer import mondrian_anonymize
+from .anonymizer import basic_mondrian_anonymize, mondrian_ldiv_anonymize
