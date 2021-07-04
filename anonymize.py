@@ -3,6 +3,7 @@ import os
 import argparse
 import numpy as np
 import pandas as pd
+from utils.ncp import NCP
 
 from algorithms import (
         k_anonymize,
@@ -101,7 +102,7 @@ class Anonymizer:
         anon_params.update({'data': raw_data})
 
         print(f"Anonymize with {self.method}")
-        anon_data, ncp_score, runtime = k_anonymize(anon_params)
+        anon_data, runtime = k_anonymize(anon_params)
 
         if anon_data is not None:
             nodes_count = write_anon(
@@ -111,8 +112,14 @@ class Anonymizer:
                 self.k, 0, 
                 self.data_name)
 
-        print(f"NCP score: {ncp_score}%")
-        print(f"Time execution: {runtime}s")
+        if self.method == AnonMethod.CLASSIC_MONDRIAN:
+            ncp_score, runtime = runtime
+        else:
+            ncp = NCP(raw_data, anon_data, QI_INDEX, ATT_TREES)
+            ncp_score = ncp.compute_score()
+      
+        print(f"NCP score: {ncp_score:.2f}%")
+        print(f"Time execution: {runtime:.2f}s")
 
 def main(args):
     anonymizer = Anonymizer(args)
