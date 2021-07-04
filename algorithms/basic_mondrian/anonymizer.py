@@ -30,25 +30,22 @@ def basic_mondrian_anonymize(k, att_trees, data, qi_index, sa_index, **kwargs):
     """
     Basic Mondrian with K-Anonymity
     """
-    result, eval_result = mondrian(
+    result, runtime = mondrian(
         att_trees, 
         reorder_columns(copy.deepcopy(data), qi_index), 
         k, len(qi_index), sa_index)
 
-    ncp_score, runtime = eval_result
-
-    return restore_column_order(result, qi_index), ncp_score, runtime
+    return restore_column_order(result, qi_index), runtime
 
 def mondrian_ldiv_anonymize(l, att_trees, data, qi_index, sa_index):
     """
     Basic Mondrian with L-diversity
     """
     
-    result, eval_result = mondrian_l_diversity(
+    result, runtime = mondrian_l_diversity(
         att_trees, 
         reorder_columns(copy.deepcopy(data), qi_index), 
         l, len(qi_index), sa_index)
     
-    ncp_score, runtime = eval_result
     
-    return restore_column_order(result, qi_index), ncp_score, runtime
+    return restore_column_order(result, qi_index), runtime

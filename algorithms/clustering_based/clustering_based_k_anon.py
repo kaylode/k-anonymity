@@ -461,7 +461,6 @@ def clustering_based_k_anon(att_trees, data, k, QI_num, SA_num, type_alg):
         print("knn | kmember")
         return (0, (0, 0))
     rtime = float(time.time() - start_time)
-    ncp = 0.0
     for cluster in tqdm(clusters):
         final_result = []
         for i in range(len(cluster)):
@@ -471,10 +470,5 @@ def clustering_based_k_anon(att_trees, data, k, QI_num, SA_num, type_alg):
                 tmp += [cluster.member[i][s]]
             final_result.append(cluster.gen_result + tmp)
         result.extend(final_result)
-        ncp += cluster.information_loss
-    ncp /= LEN_DATA
-    ncp /= QI_LEN
-    ncp *= 100
-    if __DEBUG:
-        print("NCP=", ncp)
-    return (result, (ncp, rtime))
+
+    return (result, rtime)

@@ -461,4 +461,4 @@ def datafly(k, qi_names, csv_path, data_name, dgh_folder, res_folder):
 
     end = (datetime.now() - start).total_seconds()
 
-    return data, 0, end
+    return data, end

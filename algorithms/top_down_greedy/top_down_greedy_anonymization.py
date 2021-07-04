@@ -310,33 +310,15 @@ def Top_Down_Greedy_Anonymization(att_trees, data, k, QI_num, SA_num):
     start_time = time.time()
     anonymize(whole_partition)
     rtime = float(time.time() - start_time)
-    ncp = 0.0
     dp = 0.0
     for sub_partition in tqdm(RESULT):
-        rncp = 0.0
         gen_result = sub_partition.middle
-        rncp = NCP(gen_result)
 
         for i in range(len(sub_partition)):
             temp_for_SA = []
             for s in range(len(sub_partition.member[i]) - len(SA_INDEX), len(sub_partition.member[i])):
                 temp_for_SA = temp_for_SA + [sub_partition.member[i][s]]
             result.append(gen_result[:] + temp_for_SA)
-        rncp *= len(sub_partition)
         dp += len(sub_partition) ** 2
-        ncp += rncp
-    # covert NCP to percentage
-    ncp /= len(data)
-    ncp /= QI_LEN
-    ncp *= 100
-    if __DEBUG:
-        from decimal import Decimal
-        print("Discernability Penalty=%.2E" % Decimal(str(dp)))
-        print("K=%d" % k)
-        print("size of partitions")
-        print(len(RESULT))
-        print([len(partition) for partition in RESULT])
-        print("NCP = %.2f %%" % ncp)
-        print("Total running time = %.2f" % rtime)
 
-    return (result, (ncp, rtime))
+    return (result, rtime)

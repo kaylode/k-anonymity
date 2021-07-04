@@ -19,9 +19,8 @@ def tdg_anonymize(k, att_trees, data, qi_index, sa_index, **kwargs):
     Top-Down Greedy Anonymization
     """
 
-    result, eval_result = Top_Down_Greedy_Anonymization(att_trees, reorder_columns(
+    result, runtime = Top_Down_Greedy_Anonymization(att_trees, reorder_columns(
         copy.deepcopy(data), qi_index), k, len(qi_index), sa_index)
     
-    ncp_score, runtime = eval_result
 
-    return restore_column_order(result, qi_index), ncp_score, runtime
+    return restore_column_order(result, qi_index), runtime

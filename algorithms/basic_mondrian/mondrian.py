@@ -384,34 +384,14 @@ def mondrian(att_trees, data, k, QI_num, SA_num):
     start_time = time.time()
     anonymize(whole_partition)
     rtime = float(time.time() - start_time)
-    ncp = 0.0
     for partition in RESULT:
-        r_ncp = 0.0
-        for i in range(QI_LEN):
-            r_ncp += get_normalized_width(partition, i)
         temp = partition.middle
         for i in range(len(partition)):
             temp_for_SA = []
             for s in range(len(partition.member[i]) - len(SA_INDEX), len(partition.member[i])):
                 temp_for_SA = temp_for_SA + [partition.member[i][s]]
             result.append(temp + temp_for_SA)
-        r_ncp *= len(partition)
-        ncp += r_ncp
-    # covert to NCP percentage
-    ncp /= QI_LEN
-    ncp /= len(data)
-    ncp *= 100
-    if len(result) != len(data):
-        print("Losing records during anonymization!!")
-        pdb.set_trace()
-    if __DEBUG:
-        print("K=%d" % k)
-        print("size of partitions")
-        print(len(RESULT))
-        temp = [len(t) for t in RESULT]
-        print(sorted(temp))
-        print("NCP = %.2f %%" % ncp)
-    return (result, (ncp, rtime))
+    return (result, rtime)
 
 def mondrian_l_diversity(att_trees, data, L, QI_num, SA_num):
     """
@@ -438,29 +418,15 @@ def mondrian_l_diversity(att_trees, data, L, QI_num, SA_num):
     start_time = time.time()
     anonymize(whole_partition)
     rtime = float(time.time() - start_time)
-    ncp = 0.0
+ 
     dp = 0.0
     for partition in RESULT:
-        rncp = 0.0
         dp += len(partition) ** 2
-        for i in range(QI_LEN):
-            rncp += get_normalized_width(partition, i)
         temp = partition.middle
         for i in range(len(partition)):
             temp_for_SA = []
             for s in range(len(partition.member[i]) - len(SA_INDEX), len(partition.member[i])):
                 temp_for_SA = temp_for_SA + [partition.member[i][s]]
             result.append(temp + temp_for_SA)
-        rncp *= len(partition)
-        ncp += rncp
-    ncp /= QI_LEN
-    ncp /= len(data)
-    ncp *= 100
-    if __DEBUG:
-        from decimal import Decimal
-        print("Discernability Penalty=%.2E" % Decimal(str(dp)))
-        print("size of partitions")
-        print(len(RESULT))
-        # print [len(t) for t in RESULT]
-        print("NCP = %.2f %%" % ncp)
-    return (result, (ncp, rtime))
+
+    return (result, rtime)

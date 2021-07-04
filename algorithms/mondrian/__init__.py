@@ -49,4 +49,4 @@ def classic_mondrian_anonymize(k, data, qi_index, mapping_dict=None, is_cat=None
         
     ncp_score, runtime = eval_result
 
-    return result_in_order, ncp_score, runtime
+    return result_in_order, (ncp_score, runtime)
