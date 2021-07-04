@@ -18,8 +18,12 @@ Report edit link:
 ## Executing:
 To anonymize dataset, run:
 ```
-python anonymize.py --method=<[mondrian|topdown|cluster]> --k=<k-anonymity>
+python anonymize.py --method=<model_type> --k=<k-anonymity> --dataset=<dataset_name>
 ```
+- **model_type**: [mondrian | classic_mondrian | mondrian_ldiv | topdown | cluster | datafly]
+- **dataset_name**: [adult | cahousing | cmc | mgm | informs | italia]
+
+
 
 ## References:
 - Basic Mondrian, Top-Down Greedy, Cluster-based (https://github.com/fhstp/k-AnonML)
