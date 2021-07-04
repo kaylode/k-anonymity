@@ -22,9 +22,15 @@ class AnonMethod(Enum):
     #Optimal Lattice Anonymization
     OLA = 'ola'
 
-    # Basic Mondrian
-    MONDRIAN = 'mondrian'
+    # Classic Mondrian (no hierchies)
+    CLASSIC_MONDRIAN = 'classic_mondrian'
 
+    # Basic Mondrian
+    BASIC_MONDRIAN = 'mondrian'
+
+    # Mondrian L-diversity
+    MONDRIAN_LDIV = "mondrian_ldiv"
+    
     # Top-Down Greedy
     TOPDOWN = 'topdown'
 

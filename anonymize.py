@@ -1,4 +1,4 @@
-from algorithms.basic_mondrian import anonymizer
+from utils.types import AnonMethod
 import os
 import argparse
 import numpy as np
@@ -6,11 +6,10 @@ import pandas as pd
 
 from configs import Config
 from algorithms import (
-        get_anon_method,
         k_anonymize,
         read_tree)
 from datasets import get_dataset_params
-from utils.data import read_raw, write_anon
+from utils.data import read_raw, write_anon, numberize_categories
 
 parser = argparse.ArgumentParser('K-Anonymize')
 parser.add_argument('--method', type=str, default='mondrian',
@@ -21,7 +20,7 @@ parser.add_argument('--k', type=int, default=2,
 class Anonymizer:
     def __init__(self, args, config):
         self.method = args.method
-        assert self.method in ["mondrian", "topdown", "cluster"]
+        assert self.method in ["mondrian", "topdown", "cluster", "mondrian_ldiv", "classic_mondrian"]
         self.k = args.k
         self.data_name = config.project_name
         
@@ -57,6 +56,7 @@ class Anonymizer:
         
         data_params = get_dataset_params(self.data_name)
         QI_INDEX = data_params['qi_index']
+        IS_CAT2 = data_params['is_category']
 
         QI_NAMES = list(np.array(ATT_NAMES)[QI_INDEX])
         IS_CAT = [True] * len(QI_INDEX)
@@ -75,13 +75,22 @@ class Anonymizer:
             self.data_name, 
             QI_INDEX, IS_CAT)
 
+        anon_params = {
+            "name" :self.method,
+            "att_trees" :ATT_TREES,
+            "value" :self.k,
+            "qi_index" :QI_INDEX, 
+            "sa_index" :SA_INDEX
+        }
 
-        anon_method = get_anon_method(self.method)
-        anon_data = k_anonymize(
-            anon_method,
-            ATT_TREES,
-            raw_data, self.k,
-            QI_INDEX, SA_INDEX)
+        if self.method == AnonMethod.CLASSIC_MONDRIAN:
+            mapping_dict,raw_data = numberize_categories(raw_data, QI_INDEX, SA_INDEX, IS_CAT2)
+            anon_params.update({'mapping_dict': mapping_dict})
+            anon_params.update({'is_cat': IS_CAT2})
+
+        anon_params.update({'data': raw_data})
+
+        anon_data = k_anonymize(anon_params)
 
         nodes_count = write_anon(
             self.anon_folder, 
@@ -93,12 +102,6 @@ class Anonymizer:
 def main(args, config):
     anonymizer = Anonymizer(args, config)
     anonymizer.anonymize()
-    
-
-    
-
-    
-
     
 
 if __name__ == '__main__':

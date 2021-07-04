@@ -83,3 +83,36 @@ def write_anon(path, anon_data, header, k, s, dataset, delimiter=';'):
             anon_writer.writerow(header)
             anon_writer.writerows(data)
     return len(anon_data)
+
+def numberize_categories(data, qi_index, sa_index, is_cat):
+    num_qis = len(qi_index)
+    mapping_dict=[{} for i in range(num_qis)]
+    iterative_id = [0 for i in range(num_qis)]
+
+    for record in data:
+        for idx, i in enumerate(qi_index):
+            if is_cat[idx]:
+                value = record[i]
+                if value not in mapping_dict[idx].keys():
+                    mapping_dict[idx][value] = iterative_id[idx]
+                    iterative_id[idx] += 1
+
+
+    new_data = []
+    for record in data:
+        new_record = []
+        for idx, i in enumerate(qi_index):
+            value = record[i]
+            if is_cat[idx]:
+                new_record.append(mapping_dict[idx][value])
+            else:
+                new_record.append(float(value))
+        for idx, i in enumerate(sa_index):
+            value = record[i]
+            new_record.append(value)
+
+        new_data.append(new_record)
+
+    restore_dict = [{v:k for k,v in dict_.items()} for dict_ in mapping_dict]
+
+    return restore_dict, new_data
