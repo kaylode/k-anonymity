@@ -23,6 +23,12 @@ def get_dataset_params(name):
         IS_CAT = [False, False, False, False, False]
         max_numeric = {"latitude": 119.33, "longitude": 37.245, "housing_median_age": 32.5,
                     "median_house_value": 257500, "median_income": 5.2035}
+    elif name == Dataset.INFORMS:
+        QI_INDEX = [3, 4, 6, 13, 16]
+        target_var = "poverty"
+        IS_CAT = [True, True, True, True, False]
+        max_numeric = {"DOBMM": None, "DOBYY": None, "RACEX":None, "EDUCYEAR": None, "income": None}
+
 
     return {
         'qi_index': QI_INDEX,
