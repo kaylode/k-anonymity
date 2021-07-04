@@ -11,10 +11,6 @@ from .clustering_based_k_anon import clustering_based_k_anon
 sys.path.insert(1, os.path.join(sys.path[0], '..'))
 from utils.data import reorder_columns, restore_column_order
 
-DATA_SELECT = 'a'
-TYPE_ALG = 'kmember'
-DEFAULT_K = 10
-__DEBUG = True
 
 
 def extend_result(val):
@@ -26,7 +22,7 @@ def extend_result(val):
     return val
 
 
-def cluster_based_anonymize(att_trees, data, k, qi_index, sa_index, type_alg='knn', **kwargs):
+def cluster_based_anonymize(k, att_trees, data, qi_index, sa_index, type_alg='knn', **kwargs):
     "run clustering_based_k_anon for one time, with k=10"
     result, eval_result = clustering_based_k_anon(att_trees, reorder_columns(
         copy.deepcopy(data), qi_index), k, len(qi_index), sa_index, type_alg)
