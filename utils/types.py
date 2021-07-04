@@ -10,6 +10,7 @@ class Dataset(Enum):
     ADULT = 'adult'
     CAHOUSING = 'cahousing'
     INFORMS = 'informs'
+    ITALIA = 'italia'
 
     def __str__(self):
         return self.value

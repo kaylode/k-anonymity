@@ -28,7 +28,11 @@ def get_dataset_params(name):
         target_var = "poverty"
         IS_CAT = [True, True, True, True, False]
         max_numeric = {"DOBMM": None, "DOBYY": None, "RACEX":None, "EDUCYEAR": None, "income": None}
-
+    elif name == Dataset.ITALIA:
+        QI_INDEX = [1, 2, 3]
+        target_var = "disease"
+        IS_CAT = [False, True, False]
+        max_numeric = {"age": None, "city_birth": None, "zip_code":None}
 
     return {
         'qi_index': QI_INDEX,

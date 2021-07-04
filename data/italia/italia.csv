@@ -1,0 +1,101 @@
+id;age;city_birth;zip_code;disease
+1;55;San Giovanni Del Dosso;25049;Cancer
+2;50;Comina (La);16151;AIDS
+3;17;Marina Di Camerota;73015;AIDS
+4;8;Tonnarella;19028;Autism
+5;40;San Bartolomeo Lanze;58014;Autism
+6;41;Cade';13884;Autism
+7;57;Corsione;86070;AIDS
+8;59;Arre;85020;Autism
+9;60;San Giovanni;87045;Autism
+10;70;Trigolo;34010;Heart disease
+11;51;Selino Basso;98074;Alzheimer's disease
+12;56;San Giacomo Delle Segnate;27020;Heart disease
+13;53;Cerreto;38077;Anorexia
+14;40;Bergantino;56017;Heart disease
+15;25;Barberino Val D'Elsa;41028;Autism
+16;11;Badia Di Cava De' Tirreni;15060;Anorexia
+17;2;Santa Maria Del Taro;53030;Heart disease
+18;11;Rifreddo;39010;Cancer
+19;89;Nuraminis;16167;Heart disease
+20;12;Flagogna;00020;Autism
+21;9;Rinaggiu;25019;Cancer
+22;29;Lodrone;39056;Heart disease
+23;56;Banco;74020;Anorexia
+24;70;Biella;39028;Autism
+25;18;San Gallo;86045;Heart disease
+26;38;Bacchereto;37137;Alzheimer's disease
+27;62;Sant'Angelo Di Cetraro;90049;AIDS
+28;13;Montecastelli Pisano;39011;Autism
+29;53;Guardamiglio;16010;AIDS
+30;42;Colognole;00152;Anorexia
+31;32;Sant'Antonino Di Susa;51100;AIDS
+32;37;Mandrogne;39010;Anorexia
+33;49;Cassano Spinola;56020;Heart disease
+34;94;San Lorenzo;87040;AIDS
+35;87;Plawenn;08030;Alzheimer's disease
+36;17;Salcito;16030;Autism
+37;53;Vannullo;61037;AIDS
+38;65;Luserna;27023;Autism
+39;7;Monticchiello;21010;Heart disease
+40;44;Sala;81028;AIDS
+41;53;Pedrengo;33100;Alzheimer's disease
+42;63;San Cipriano Picentino;71027;Anorexia
+43;75;Pasturo;01020;AIDS
+44;33;Erchie;90040;Autism
+45;14;San Piero In Bagno;17014;Anorexia
+46;79;Catania;81037;Heart disease
+47;68;Morro Reatino;60044;Alzheimer's disease
+48;63;Prignano Cilento;82020;Anorexia
+49;49;San Girolamo;23035;AIDS
+50;18;San Paolo;96010;Cancer
+51;70;Magliano Nuovo;38060;Anorexia
+52;39;Molini;51016;Heart disease
+53;7;Specchia Tarantina;84052;Anorexia
+54;4;Molteno;30014;Alzheimer's disease
+55;28;Pontecagnano Faiano;38078;Heart disease
+56;68;Hafling;25061;Anorexia
+57;89;Serle;88040;AIDS
+58;52;Gioia Del Colle;90131;Heart disease
+59;15;San Martino In Passiria;41036;Anorexia
+60;93;Motta Sant'Anastasia;33021;Autism
+61;9;Fabro Scalo;98157;Alzheimer's disease
+62;41;Larciano;82030;Autism
+63;78;San Pancrazio;39030;Cancer
+64;87;Sutri;29023;Autism
+65;1;Monterotondo Marittimo;30030;AIDS
+66;15;Vische;26010;Anorexia
+67;85;Verdins;39040;Autism
+68;25;Poderi Di Montemerano;00011;Cancer
+69;47;Pastorano;26010;Heart disease
+70;84;Villaggi;08013;Anorexia
+71;36;Viola;62012;Alzheimer's disease
+72;46;Ponzano Veneto;37060;Heart disease
+73;91;Prata;28841;Anorexia
+74;69;Calbola;90049;Alzheimer's disease
+75;31;San Pietro Sovera;26857;Alzheimer's disease
+76;98;Bertinoro;73040;Anorexia
+77;89;Premia;66034;Cancer
+78;35;Trescine;88041;Autism
+79;2;Montegridolfo;02016;Cancer
+80;4;Roccaverano;67013;Heart disease
+81;1;Casanova;40051;Heart disease
+82;19;Sesto San Giovanni;12047;Anorexia
+83;83;Parabiago;08012;Anorexia
+84;47;Isola Maggiore;01019;Alzheimer's disease
+85;35;Pedemonte;58100;Anorexia
+86;65;Arcade;39023;Anorexia
+87;94;Matine;88040;Cancer
+88;29;Lido Di Venezia;38100;AIDS
+89;17;Andorno Micca;98070;Cancer
+90;8;Kurtatsch;15050;Alzheimer's disease
+91;94;Robecco Sul Naviglio;87046;Heart disease
+92;94;Bussero;15040;Heart disease
+93;94;Seghe Di Velo;16030;Autism
+94;77;Cascina Costa;57032;Heart disease
+95;73;Agropoli Stazione;09028;Alzheimer's disease
+96;96;Torriglia;02010;Cancer
+97;34;Abatemarco;15010;Autism
+98;33;Deposito Di Luzzi;41038;Anorexia
+99;11;Montescudo;94012;Heart disease
+100;21;Baio Dora;30126;Autism
