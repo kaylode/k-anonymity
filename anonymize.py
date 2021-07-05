@@ -3,7 +3,7 @@ import os
 import argparse
 import numpy as np
 import pandas as pd
-from utils.ncp import NCP
+from metrics import NCP, DM, CAVG
 
 from algorithms import (
         k_anonymize,
@@ -62,7 +62,7 @@ class Anonymizer:
         IS_CAT2 = data_params['is_category']
 
         QI_NAMES = list(np.array(ATT_NAMES)[QI_INDEX])
-        IS_CAT = [True] * len(QI_INDEX)
+        IS_CAT = [True] * len(QI_INDEX) # is all cat because all hierarchies are provided
         SA_INDEX = [index for index in range(len(ATT_NAMES)) if index not in QI_INDEX]
         SA_var = [ATT_NAMES[i] for i in SA_INDEX]
 
@@ -104,6 +104,7 @@ class Anonymizer:
         print(f"Anonymize with {self.method}")
         anon_data, runtime = k_anonymize(anon_params)
 
+        # Write anonymized table
         if anon_data is not None:
             nodes_count = write_anon(
                 self.anon_folder, 
@@ -115,11 +116,22 @@ class Anonymizer:
         if self.method == AnonMethod.CLASSIC_MONDRIAN:
             ncp_score, runtime = runtime
         else:
-            ncp = NCP(raw_data, anon_data, QI_INDEX, ATT_TREES)
+            # Normalized Certainty Penalty
+            ncp = NCP(anon_data, QI_INDEX, ATT_TREES)
             ncp_score = ncp.compute_score()
-      
-        print(f"NCP score: {ncp_score:.2f}%")
-        print(f"Time execution: {runtime:.2f}s")
+
+        # Discernibility Metric
+        dm = DM(anon_data, QI_INDEX)
+        dm_score = dm.compute_score()
+
+        # Average Equivalence Class
+        cavg = CAVG(anon_data, QI_INDEX, self.k)
+        cavg_score = cavg.compute_score()
+
+        print(f"NCP score: {ncp_score:.3f}%")
+        print(f"CAVG score: {cavg_score:.3f}")
+        print(f"DM score: {dm_score}")
+        print(f"Time execution: {runtime:.3f}s")
 
 def main(args):
     anonymizer = Anonymizer(args)
