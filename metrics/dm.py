@@ -3,9 +3,11 @@ class DM:
     Discernibility Metric implementation based on definition from
     http://www.tdp.cat/issues11/tdp.a169a14.pdf    
     """
-    def __init__(self, anon_data, qi_index) -> None:
+    def __init__(self, anon_data, qi_index, k) -> None:
         self.anon_data = anon_data
+        self.num_records = len(anon_data)
         self.qi_index = qi_index
+        self.k = k
         self.num_qi = len(qi_index)
 
     def compute_eq(self):
@@ -28,7 +30,11 @@ class DM:
         self.compute_eq()
         dm = 0
         for eq in self.eq_count.keys():
-            dm += (self.eq_count[eq]**2)
+            eq_count = self.eq_count[eq]
+            if eq_count >= self.k:
+                dm += (eq_count*eq_count)
+            else:
+                dm += (eq_count * self.num_records)
 
         return dm
             

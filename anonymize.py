@@ -121,16 +121,24 @@ class Anonymizer:
             ncp_score = ncp.compute_score()
 
         # Discernibility Metric
-        dm = DM(anon_data, QI_INDEX)
-        dm_score = dm.compute_score()
+
+        raw_dm = DM(raw_data, QI_INDEX, self.k)
+        raw_dm_score = raw_dm.compute_score()
+
+        anon_dm = DM(anon_data, QI_INDEX, self.k)
+        anon_dm_score = anon_dm.compute_score()
 
         # Average Equivalence Class
-        cavg = CAVG(anon_data, QI_INDEX, self.k)
-        cavg_score = cavg.compute_score()
 
-        print(f"NCP score: {ncp_score:.3f}%")
-        print(f"CAVG score: {cavg_score:.3f}")
-        print(f"DM score: {dm_score}")
+        raw_cavg = CAVG(raw_data, QI_INDEX, self.k)
+        raw_cavg_score = raw_cavg.compute_score()
+
+        anon_cavg = CAVG(anon_data, QI_INDEX, self.k)
+        anon_cavg_score = anon_cavg.compute_score()
+
+        print(f"NCP score (lower is better): {ncp_score:.3f}")
+        print(f"CAVG score (near 1 is better): BEFORE: {raw_cavg_score:.3f} || AFTER: {anon_cavg_score:.3f}")
+        print(f"DM score (lower is better): BEFORE: {raw_dm_score} || AFTER: {anon_dm_score}")
         print(f"Time execution: {runtime:.3f}s")
 
 def main(args):
