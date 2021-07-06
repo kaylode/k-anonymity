@@ -26,8 +26,7 @@ def restore_num_to_cat(mapping_dict, data, qi_index, is_cat):
                     new_record.append(value)
             else:
                 new_record.append(value)
-
-            new_data.append(new_record)
+        new_data.append(new_record)
     return new_data
 
 
@@ -46,7 +45,7 @@ def classic_mondrian_anonymize(k, data, qi_index, mapping_dict=None, is_cat=None
     if mapping_dict is not None:
         restored = restore_num_to_cat(mapping_dict, result_in_order, qi_index, is_cat)
         result_in_order = restored
-        
+
     ncp_score, runtime = eval_result
 
     return result_in_order, (ncp_score, runtime)
