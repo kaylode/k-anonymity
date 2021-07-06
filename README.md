@@ -4,7 +4,7 @@
 - [x] Add L-diversity, Classic Mondrian (no hierarchies), Datafly algorithm
 - [x] Make NCP loss a separated module
 - [x] Implement DM, CAVG metrics 
-- [ ] Implement classification models (basic classifier, clustering)
+- [x] Implement classification models (basic classifier, clustering)
 - [ ] Run experiment on 6 datasets x 6 methods x 2 ML models
 - [ ] Finish report
 - [ ] (Improvement) T-closeness method, Incognito Algorithm
