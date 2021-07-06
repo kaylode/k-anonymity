@@ -5,7 +5,7 @@ import os
 import pickle
 
 
-def read_raw(path, numeric_path, dataset, qi_index, is_cat, delimiter=';', sort_count=False):
+def read_raw(path, dataset, qi_index, is_cat, delimiter=';', sort_count=False):
     """Reads dataset from a csv file. Split in header and data
 
         :param file_path: Path to the csv file
@@ -28,17 +28,6 @@ def read_raw(path, numeric_path, dataset, qi_index, is_cat, delimiter=';', sort_
                         numeric_dict[i][row[qii]] += 1
                     except KeyError:
                         numeric_dict[i][row[qii]] = 1
-
-        # sort non categorical value by count or value
-        for i, qii, cat in zip(range(len(qi_index)), qi_index, is_cat):
-            if not cat:
-                with open(os.path.join(numeric_path, dataset + '_' + header[qii] + '_static.pickle'), 'wb') as static_file:
-                    sort_value = None
-                    if sort_count:
-                        sort_value = [elem[0] for elem in sorted(numeric_dict[i].items(), key=lambda x: x[1])]
-                    else:
-                        sort_value = sorted(numeric_dict[i])
-                    pickle.dump((numeric_dict[i], sort_value), static_file)
 
     return (data, header)
 
@@ -72,7 +61,7 @@ def transform_columns(data):
     return res
 
 
-def write_anon(path, anon_data, header, k, s, dataset, delimiter=';'):
+def write_anon(path, anon_data, header, k, dataset, delimiter=';'):
     if isinstance(anon_data, dict):
         anon_data = anon_data.values()
     else:
@@ -80,7 +69,7 @@ def write_anon(path, anon_data, header, k, s, dataset, delimiter=';'):
         anon_data = sorted(anon_data, key=lambda x: int(x[0]))
         anon_data = [anon_data]
     for i, data in enumerate(anon_data):
-        with open(os.path.join(path, dataset + "_anonymized_" + str(k) + '_' + str(i) + ".csv"), mode='w', newline='') as anon_file:
+        with open(os.path.join(path, dataset + "_anonymized_" + str(k) + ".csv"), mode='w', newline='') as anon_file:
             anon_writer = csv.writer(anon_file, delimiter=delimiter)
             anon_writer.writerow(header)
             anon_writer.writerows(data)

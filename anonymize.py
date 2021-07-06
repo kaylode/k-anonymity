@@ -45,13 +45,9 @@ class Anonymizer:
             self.method)
 
         # path for anonymized datasets
-        self.anon_folder = os.path.join(res_folder, 'anon_dataset')  # trailing /
+        self.anon_folder = res_folder  # trailing /
         
-        # path for pickled numeric values
-        self.numeric_folder = os.path.join(res_folder, 'numeric')
-
         os.makedirs(self.anon_folder, exist_ok=True)
-        os.makedirs(self.numeric_folder, exist_ok=True)
 
     def anonymize(self):
         data = pd.read_csv(self.data_path, delimiter=';')
@@ -68,13 +64,12 @@ class Anonymizer:
 
         ATT_TREES = read_tree(
             self.gen_path, 
-            self.numeric_folder, 
             self.data_name, 
             ATT_NAMES, 
             QI_INDEX, IS_CAT)
 
         raw_data, header = read_raw(
-            self.path, self.numeric_folder, 
+            self.path, 
             self.data_name, 
             QI_INDEX, IS_CAT)
 
@@ -110,7 +105,7 @@ class Anonymizer:
                 self.anon_folder, 
                 anon_data, 
                 header, 
-                self.k, 0, 
+                self.k, 
                 self.data_name)
 
         if self.method == AnonMethod.CLASSIC_MONDRIAN:

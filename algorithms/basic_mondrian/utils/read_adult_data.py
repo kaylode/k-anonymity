@@ -52,7 +52,7 @@ def read_data(path, dataset, ATT_NAMES, QI_INDEX, IS_CAT, SA_INDEX):
     return data
 
 
-def read_tree(path, numeric_path, dataset, ATT_NAMES, QI_INDEX, IS_CAT):
+def read_tree(path, dataset, ATT_NAMES, QI_INDEX, IS_CAT):
     """read tree from data/tree_*.txt, store them in att_tree
     """
     att_names = []
@@ -62,8 +62,6 @@ def read_tree(path, numeric_path, dataset, ATT_NAMES, QI_INDEX, IS_CAT):
     for i in range(len(att_names)):
         if IS_CAT[i]:
             att_trees.append(read_tree_file(path, dataset, att_names[i]))
-        else:
-            att_trees.append(read_pickle_file(numeric_path, dataset, att_names[i]))
     return att_trees
 
 
