@@ -1,0 +1,101 @@
+id;age;city_birth;zip_code;disease
+3;0~20;Italy;*****;AIDS
+4;0~20;Italy;*****;Autism
+16;0~20;Italy;*****;Anorexia
+17;0~20;Italy;*****;Heart disease
+18;0~20;Italy;*****;Cancer
+20;0~20;Italy;*****;Autism
+21;0~20;Italy;*****;Cancer
+25;0~20;Italy;*****;Heart disease
+28;0~20;Italy;*****;Autism
+36;0~20;Italy;*****;Autism
+39;0~20;Italy;*****;Heart disease
+45;0~20;Italy;*****;Anorexia
+50;0~20;Italy;*****;Cancer
+53;0~20;Italy;*****;Anorexia
+54;0~20;Italy;*****;Alzheimer's disease
+59;0~20;Italy;*****;Anorexia
+61;0~20;Italy;*****;Alzheimer's disease
+65;0~20;Italy;*****;AIDS
+66;0~20;Italy;*****;Anorexia
+79;0~20;Italy;*****;Cancer
+80;0~20;Italy;*****;Heart disease
+81;0~20;Italy;*****;Heart disease
+82;0~20;Italy;*****;Anorexia
+89;0~20;Italy;*****;Cancer
+90;0~20;Italy;*****;Alzheimer's disease
+99;0~20;Italy;*****;Heart disease
+1;50~100;Italy;*****;Cancer
+2;50~100;Italy;*****;AIDS
+5;50~100;Italy;*****;Autism
+6;50~100;Italy;*****;Autism
+7;50~100;Italy;*****;AIDS
+8;50~100;Italy;*****;Autism
+9;50~100;Italy;*****;Autism
+10;50~100;Italy;*****;Heart disease
+11;50~100;Italy;*****;Alzheimer's disease
+12;50~100;Italy;*****;Heart disease
+13;50~100;Italy;*****;Anorexia
+14;50~100;Italy;*****;Heart disease
+15;50~100;Italy;*****;Autism
+19;50~100;Italy;*****;Heart disease
+22;50~100;Italy;*****;Heart disease
+23;50~100;Italy;*****;Anorexia
+24;50~100;Italy;*****;Autism
+26;50~100;Italy;*****;Alzheimer's disease
+27;50~100;Italy;*****;AIDS
+29;50~100;Italy;*****;AIDS
+30;50~100;Italy;*****;Anorexia
+31;50~100;Italy;*****;AIDS
+32;50~100;Italy;*****;Anorexia
+33;50~100;Italy;*****;Heart disease
+34;50~100;Italy;*****;AIDS
+35;50~100;Italy;*****;Alzheimer's disease
+37;50~100;Italy;*****;AIDS
+38;50~100;Italy;*****;Autism
+40;50~100;Italy;*****;AIDS
+41;50~100;Italy;*****;Alzheimer's disease
+42;50~100;Italy;*****;Anorexia
+43;50~100;Italy;*****;AIDS
+44;50~100;Italy;*****;Autism
+46;50~100;Italy;*****;Heart disease
+47;50~100;Italy;*****;Alzheimer's disease
+48;50~100;Italy;*****;Anorexia
+49;50~100;Italy;*****;AIDS
+51;50~100;Italy;*****;Anorexia
+52;50~100;Italy;*****;Heart disease
+55;50~100;Italy;*****;Heart disease
+56;50~100;Italy;*****;Anorexia
+57;50~100;Italy;*****;AIDS
+58;50~100;Italy;*****;Heart disease
+60;50~100;Italy;*****;Autism
+62;50~100;Italy;*****;Autism
+63;50~100;Italy;*****;Cancer
+64;50~100;Italy;*****;Autism
+67;50~100;Italy;*****;Autism
+68;50~100;Italy;*****;Cancer
+69;50~100;Italy;*****;Heart disease
+70;50~100;Italy;*****;Anorexia
+71;50~100;Italy;*****;Alzheimer's disease
+72;50~100;Italy;*****;Heart disease
+73;50~100;Italy;*****;Anorexia
+74;50~100;Italy;*****;Alzheimer's disease
+75;50~100;Italy;*****;Alzheimer's disease
+76;50~100;Italy;*****;Anorexia
+77;50~100;Italy;*****;Cancer
+78;50~100;Italy;*****;Autism
+83;50~100;Italy;*****;Anorexia
+84;50~100;Italy;*****;Alzheimer's disease
+85;50~100;Italy;*****;Anorexia
+86;50~100;Italy;*****;Anorexia
+87;50~100;Italy;*****;Cancer
+88;50~100;Italy;*****;AIDS
+91;50~100;Italy;*****;Heart disease
+92;50~100;Italy;*****;Heart disease
+93;50~100;Italy;*****;Autism
+94;50~100;Italy;*****;Heart disease
+95;50~100;Italy;*****;Alzheimer's disease
+96;50~100;Italy;*****;Cancer
+97;50~100;Italy;*****;Autism
+98;50~100;Italy;*****;Anorexia
+100;50~100;Italy;*****;Autism
