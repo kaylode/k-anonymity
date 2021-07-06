@@ -116,6 +116,12 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
     Replace all generalized value to its mean
     """
 
+    def get_non_qid_value(key, value):
+        try:
+            return float(value), 0
+        except:
+            return key+'_'+value, 1
+
     def get_mean(value):
         tmp = value.split('~')
         if len(tmp) == 2:
@@ -139,7 +145,11 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
             value = row[atr_idx]
             # If not QID, append value
             if atr_idx not in qi_index:
-                atr_dict[key] = value
+                new_key, is_cat = get_non_qid_value(key, value)
+                if is_cat:
+                    atr_dict[new_key] = 1
+                else:
+                    atr_dict[key] = new_key
                 continue
             else:
                 # If is QID
