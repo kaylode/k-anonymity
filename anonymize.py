@@ -136,6 +136,9 @@ class Anonymizer:
         print(f"DM score (lower is better): BEFORE: {raw_dm_score} || AFTER: {anon_dm_score}")
         print(f"Time execution: {runtime:.3f}s")
 
+        return ncp_score, raw_cavg_score, anon_cavg_score, raw_dm_score, anon_dm_score
+
+
 def main(args):
     anonymizer = Anonymizer(args)
     anonymizer.anonymize()
