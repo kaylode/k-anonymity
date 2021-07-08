@@ -47,7 +47,7 @@ class NCP:
         for i in range(self.num_qi):
             if self.is_cat[i]:
                 for key in self.att_trees[i].keys():
-                    self.qi_leaves[i][key] = self.att_trees[i][key].num_leaves()
+                    self.qi_leaves[i][key] = len(self.att_trees[i][key])
 
     def compute_score(self):
         ncp = 0.0 
