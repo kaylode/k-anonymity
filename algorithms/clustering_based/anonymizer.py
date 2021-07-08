@@ -26,8 +26,7 @@ def cluster_based_anonymize(k, att_trees, data, qi_index, sa_index, type_alg='kn
     """
     Clustering-based K-anonymity
     """
-    result, eval_result = clustering_based_k_anon(att_trees, reorder_columns(
+    result, runtime = clustering_based_k_anon(att_trees, reorder_columns(
         copy.deepcopy(data), qi_index), k, len(qi_index), sa_index, type_alg)
     
-    ncp_score, runtime = eval_result
-    return restore_column_order(result, qi_index), ncp_score, runtime
+    return restore_column_order(result, qi_index), runtime
