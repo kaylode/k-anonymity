@@ -350,7 +350,6 @@ def mondrian(data, k, relax=False, QI_num=-1):
     # please remove next three lines
     ncp /= QI_LEN
     ncp /= data_size
-    ncp *= 100
     if __DEBUG:
         from decimal import Decimal
         print("Discernability Penalty=%.2E" % Decimal(str(dp)))
