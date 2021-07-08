@@ -18,8 +18,8 @@ def classifier_evaluation(
     raw_csv, 
     train_index,
     val_index,
-    qi_index=None, 
-    is_cat=None, 
+    qi_index, 
+    is_cat, 
     att_trees=None,
     anon_csv = None): 
 
@@ -38,9 +38,13 @@ def classifier_evaluation(
     targets = list(df.iloc[:, -1])
     df = df.drop(df.columns[-1], axis=1)
 
-    # One-hot categorical values
-    one_hot_df = one_hot_encoding(df)
+    # Because we remove ID column
+    qi_index = [i-1 for i in qi_index]
 
+    # One-hot categorical values
+    one_hot_df = one_hot_encoding(df, qi_index, is_cat)
+
+    # print(one_hot_df.head())
     # One-hot target labels
     embeded_targets, label_to_idx = embed_target(targets)
 

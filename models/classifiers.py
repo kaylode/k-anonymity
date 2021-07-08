@@ -86,20 +86,24 @@ class RFs:
     def load_model(self, path):
         self.model = pickle.load(open(path, 'rb'))
 
-def one_hot_encoding(df):
+def one_hot_encoding(df, qi_index, is_qi_cat):
     rows, columns = df.shape
     attributes = list(df.columns)
     is_cat_list = []
-
     # Get list of categorical attribute
     for idx, row in df.iterrows():
         for j, value in enumerate(row):
-            try:
-                float(value)
-                is_cat = False
-            except ValueError:
-                # Is categorical attribute
-                is_cat = True
+            if j in qi_index:
+                ## If QID
+                pos = qi_index.index(j)
+                is_cat = is_qi_cat[pos]
+            else:
+                try:
+                    float(value)
+                    is_cat = False
+                except ValueError:
+                    # Is categorical attribute
+                    is_cat = True
             is_cat_list.append(is_cat)
         break
 
@@ -148,12 +152,11 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None, att_tre
         if att_trees is None:
             value_splits = value.split('~')
         else:
-            value_splits = att_trees[value].get_leaves_names()
+            value_splits = att_trees[str(value)].get_leaves_names()
 
         return [key+'_'+i for i in value_splits]
 
     tmp_list = []
-    qi_index = [i-1 for i in qi_index]
     for _, row in tqdm(anon_df.iterrows()):
         atr_dict = {
             key:0 for key in columns
