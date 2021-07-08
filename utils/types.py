@@ -47,3 +47,14 @@ class AnonMethod(Enum):
 
     def __eq__(self, other):
         return str(other) == self.value
+
+class ClassifierModel(Enum):
+    SVM = 'svm'
+    RF = 'rf'
+    KNN = 'knn'
+
+    def __str__(self):
+        return self.value
+
+    def __eq__(self, other):
+        return str(other) == self.value

@@ -5,7 +5,9 @@ from tqdm import tqdm
 from sklearn import svm
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, f1_score
+from algorithms import read_tree
+import numpy as np
 
 class KNN:
     """
@@ -22,7 +24,9 @@ class KNN:
         if len(class_names) == 0:
             class_names = None
         preds = self.model.predict(inputs)
-        return classification_report(targets, preds, target_names=class_names, output_dict=True)
+        # return classification_report(targets, preds, target_names=class_names, output_dict=True)
+        return f1_score(targets, preds, labels=np.unique(preds), average='weighted')
+         
 
     def save_model(self, path):
         pickle.dump(self.model, open(path, 'wb'))
@@ -45,7 +49,8 @@ class SVM:
         if len(class_names) == 0:
             class_names = None
         preds = self.model.predict(inputs)
-        return classification_report(targets, preds, target_names=class_names, output_dict=True)
+        return f1_score(targets, preds, labels=np.unique(preds), average='weighted')
+        # return classification_report(targets, preds, target_names=class_names, output_dict=True)
 
     def save_model(self, path):
         pickle.dump(self.model, open(path, 'wb'))
@@ -72,7 +77,8 @@ class RFs:
         if len(class_names) == 0:
             class_names = None
         preds = self.model.predict(inputs)
-        return classification_report(targets, preds, target_names=class_names, output_dict=True)
+        return f1_score(targets, preds, labels=np.unique(preds), average='weighted')
+        # return classification_report(targets, preds, target_names=class_names, output_dict=True)
 
     def save_model(self, path):
         pickle.dump(self.model, open(path, 'wb'))
@@ -111,7 +117,7 @@ def embed_target(targets):
     new_targets = [label_to_idx[i] for i in targets]
     return new_targets, label_to_idx
 
-def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
+def replace_generalization(anon_df, columns, qi_index=None, is_cat=None, att_trees=None):
     """
     Replace all generalized value to its mean
     """
@@ -123,16 +129,27 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
             return key+'_'+value, 1
 
     def get_mean(value):
-        tmp = value.split('~')
-        if len(tmp) == 2:
-            low, high = tmp
-            mean = (float(high) - float(low))/2
-            return mean
-        else:
-            return float(value)
+        if isinstance(value, str):
+            tmp = value.split('~')
+            if len(tmp) == 2:
+                low, high = tmp
+                mean = float(low) + (float(high) - float(low))/2
+                return mean
+            else:
+                if '*' in value:
+                    low = float(value.replace('*', '0'))
+                    high = float(value.replace('*', '9'))
+                    return low+(high-low)/2
+                elif not value.isnumeric():
+                    return 0
+        return float(value)
 
-    def get_caterogical_value(key, value):
-        value_splits = value.split('~')
+    def get_caterogical_value(key, value, att_trees=None):
+        if att_trees is None:
+            value_splits = value.split('~')
+        else:
+            value_splits = att_trees[value].get_leaves_names()
+
         return [key+'_'+i for i in value_splits]
 
     tmp_list = []
@@ -145,8 +162,8 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
             value = row[atr_idx]
             # If not QID, append value
             if atr_idx not in qi_index:
-                new_key, is_cat = get_non_qid_value(key, value)
-                if is_cat:
+                new_key, is_category = get_non_qid_value(key, value)
+                if is_category:
                     atr_dict[new_key] = 1
                 else:
                     atr_dict[key] = new_key
@@ -156,7 +173,8 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
                 # If is categorical
                 qi_id = qi_index.index(atr_idx)
                 if is_cat[qi_id]:
-                    keys = get_caterogical_value(key, value)
+                    tmp = att_trees[qi_id] if att_trees is not None else None
+                    keys = get_caterogical_value(key, value, tmp)
                     for new_key in keys:
                         atr_dict[new_key] = 1
                 else:
@@ -170,27 +188,40 @@ def replace_generalization(anon_df, columns, qi_index=None, is_cat=None):
     }
 
     for item in tmp_list:
-        for atr in item.keys():
+        for atr in result_dict.keys():
             result_dict[atr].append(item[atr])
     
     new_df = pd.DataFrame(result_dict)
     return new_df
 
 if __name__ == '__main__':
-
-    with open("./data/adult/adult_train.txt", 'r') as f:
+    from datasets import get_dataset_params
+    with open("./data/italia/italia_train.txt", 'r') as f:
         data = f.read()
         train_indexes = [int(i) for i in data.splitlines()]
 
-    with open("./data/adult/adult_val.txt", 'r') as f:
+    with open("./data/italia/italia_val.txt", 'r') as f:
         data = f.read()
         val_indexes = [int(i) for i in data.splitlines()]
 
-    df = pd.read_csv('./data/adult/adult.csv', delimiter=';')
-    anon_df = pd.read_csv('./results/adult/classic_mondrian/anon_dataset/adult_anonymized_2_0.csv', delimiter=';')
+    df = pd.read_csv('./data/italia/italia.csv', delimiter=';')
+
+    anon_df = pd.read_csv('./results/italia/mondrian/italia_anonymized_2.csv', delimiter=';')
     
-    QI_INDEX = [1, 2, 3, 4, 5, 6, 7, 8]
-    IS_CAT = [True, False, True, True, True, True, True, True]
+    ATT_NAMES = list(df.columns)
+
+    params = get_dataset_params('italia')
+    QI_INDEX = params['qi_index']
+    IS_CAT = params['is_category']
+    IS_CAT_TMP = [True, True, True]
+
+    gen_path = './data/italia/hierarchies'
+    ATT_TREES = read_tree(
+            gen_path, 
+            'italia', 
+            ATT_NAMES, 
+            QI_INDEX, IS_CAT_TMP)
+    
 
     # Drop ID and Target columns (last column)
     df = df.drop(['ID'], axis=1)
@@ -208,7 +239,8 @@ if __name__ == '__main__':
         anon_df, 
         qi_index=QI_INDEX,
         is_cat=IS_CAT,
-        columns=list(one_hot_df.columns))
+        columns=list(one_hot_df.columns),
+        att_trees=ATT_TREES)
 
     # One-hot target labels
     embeded_targets, label_to_idx = embed_target(targets)
