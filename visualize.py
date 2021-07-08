@@ -7,7 +7,7 @@ from anonymize import Anonymizer
 
 def sub_plot(result, dataset, methods):
 
-    fig, axis = plt.subplots(nrows = 3, ncols = 6, figsize = (30, 20))
+    figure, axis = plt.subplots(nrows = 3, ncols = 6, figsize = (30, 20))
 
     metrics = ['ncp', 'cav', 'dm']
     lcolors = ['orange', 'deepskyblue', 'limegreen', 'magenta']
@@ -15,7 +15,6 @@ def sub_plot(result, dataset, methods):
     label_x = ['adult', 'cahousing', 'cmc', 'mgm', 'informs', 'italia']
     label_y = ['Normalized\nCertainty', 'Average\nEquivalence', 'Discernibility\nMetric']
 
-    
     for row, metric in enumerate(metrics):
         for col, data in enumerate(dataset):
             sub_data = result[ (data == result['data']) ]
@@ -40,7 +39,6 @@ def plot_metric():
     dataset = np.unique(result['data'])
     methods = np.unique(result['method'])
     sub_plot(result, dataset, methods)
-
 
 
 def run_anon_data():
