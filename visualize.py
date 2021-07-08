@@ -9,7 +9,7 @@ from datasets import get_dataset_params
 from algorithms import read_tree
 
 methods = ['mondrian', 'classic_mondrian', 'topdown'] #, 'cluster', 'datafly']
-dataset = ['adult', 'cahousing', 'cmc', 'mgm', 'informs', 'italia'] #, 
+dataset = ['adult', 'cahousing', 'cmc', 'mgm', 'informs', 'italia'] #,  [
 k_array = [2, 5, 10, 20, 50, 100]
 
 metrics = ['ncp', 'cav', 'dm']
@@ -29,7 +29,7 @@ ml_metric_names = [
 
 def sub_plot(result, dataset, methods, metrics, label_x, label_y, figname):
 
-    fig, axis = plt.subplots(nrows = len(metrics), ncols = len(dataset), figsize = (30, 20))
+    fig, axis = plt.subplots(nrows = len(metrics), ncols = len(dataset), figsize = (35, 30))
     
     for row, metric in enumerate(metrics):
         for col, data in enumerate(dataset):
@@ -46,29 +46,74 @@ def sub_plot(result, dataset, methods, metrics, label_x, label_y, figname):
         labels_handles.values(),
         labels_handles.keys(),
         loc="upper center",
-        ncol=len(labels_handles.values()),
-        size=30)
+        fontsize=30,
+        ncol=len(labels_handles.values()))
 
     for ax, col in zip(axis[0], label_x):
-        ax.set_title(col.upper())
+        ax.set_title(col.upper(), size=20)
     
     for ax in axis[-1]:
         ax.set_xlabel('k', size=20)
 
     for ax, row in zip(axis[:,0], label_y):
-        ax.set_ylabel(row, size = 24)
-        ax.get_yaxis().set_label_coords(-0.4, 0.5)
+        ax.set_ylabel(row, size = 30)
+        ax.get_yaxis().set_label_coords(-0.2, 0.5)
     
     plt.subplots_adjust(0.075, 0.05, 0.97, 0.95, 0.2, 0.25)
     plt.savefig(figname)
     plt.show()
 
 
+def sub_plot_ml(result, dataset, methods, models, label_x, label_y, figname):
+
+    fig, axis = plt.subplots(nrows = len(models), ncols = len(dataset), figsize = (35, 30))
+    
+    for col, model in enumerate(models):
+        sub_data1 = result[(model == result['model'])]
+        for row, data in enumerate(dataset):
+            sub_data2 = sub_data1[(data == sub_data1['data'])]
+            for i, method in enumerate(methods):
+                sub_data3 = sub_data2[(method == sub_data2['method'])]
+                axis[col, row].plot(sub_data3['k'], sub_data3["anon_f1"], color = lcolors[i], label=sub_data3['method'][0])
+                
+    labels_handles = {
+        label: handle for ax in fig.axes for handle, label in zip(*ax.get_legend_handles_labels())
+    }
+
+    fig.legend(
+        labels_handles.values(),
+        labels_handles.keys(),
+        loc="upper center",
+        fontsize=30,
+        ncol=len(labels_handles.values()))
+
+    for ax, col in zip(axis[0], label_x):
+        ax.set_title(col.upper(), size=20)
+    
+    for ax in axis[-1]:
+        ax.set_xlabel('k', size=20)
+
+    for ax, row in zip(axis[:,0], label_y):
+        ax.set_ylabel(row, size = 30)
+        ax.get_yaxis().set_label_coords(-0.2, 0.5)
+    
+    plt.subplots_adjust(0.075, 0.05, 0.97, 0.95, 0.2, 0.25)
+    plt.savefig(figname)
+    plt.show()
+
 def plot_metric(col, metrics, label_x, label_y, figname):
     result = np.genfromtxt("metric_result", names = col, dtype = None)
     dataset = np.unique(result['data'])
     methods = np.unique(result['method'])
     sub_plot(result, dataset, methods, metrics, label_x, label_y, figname)
+
+def plot_metric_ml(col, label_x, label_y, figname):
+    result = np.genfromtxt("ml_metric_result_rp", names = col, dtype = None)
+    dataset = np.unique(result['data'])
+    methods = np.unique(result['method'])
+    models = np.unique(result['model'])
+    sub_plot_ml(result, dataset, methods, models, label_x, label_y, figname)
+
 
 def run_anon_data():
 
@@ -112,7 +157,7 @@ def run_anon_data_ml():
         train_index = os.path.join(data_path, data, f'{data}_train.txt')
         val_index = os.path.join(data_path, data, f'{data}_val.txt')
         for classifier_name in ml_metrics:
-            ori_f1 = classifier_evaluation(classifier_name, ori_csv, train_index, val_index)
+            ori_f1 = classifier_evaluation(classifier_name, ori_csv, train_index, val_index, QI_INDEX, IS_CAT)
             for method in methods:
                 for k in k_array:
                     anon_csv = os.path.join(result_path, data, method, f'{data}_anonymized_{k}.csv')
@@ -137,20 +182,19 @@ def run_anon_data_ml():
 if __name__ == '__main__':
 
     # Metric evaluation
-    run_anon_data()
-    plot_metric(
-        col = ["data", "method", "k", "ncp", "cav", "dm"],
-        metrics = metrics,
-        label_x= dataset,
-        label_y = metric_names,
-        figname='./demo/metrics2'
-    )
-
-    # run_anon_data_ml()
+    # run_anon_data()
     # plot_metric(
-    #     col = ["data", "method", "k", "ori_f1", "anon_f1"],
+    #     col = ["data", "method", "k", "ncp", "cav", "dm"],
     #     metrics = metrics,
     #     label_x= dataset,
     #     label_y = metric_names,
-    #     figname='./demo/metrics'
+    #     figname='./demo/metrics2'
+    # )
+
+    run_anon_data_ml()
+    # plot_metric_ml(
+    #     col = ["data", "method", "k", "model" ,"ori_f1", "anon_f1"],
+    #     label_x= dataset,
+    #     label_y = ml_metric_names,
+    #     figname='./demo/metrics_ml'
     # )
