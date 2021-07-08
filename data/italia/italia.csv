@@ -1,4 +1,4 @@
-id;age;city_birth;zip_code;disease
+ID;age;city_birth;zip_code;disease
 1;55;San Giovanni Del Dosso;25049;Cancer
 2;50;Comina (La);16151;AIDS
 3;17;Marina Di Camerota;73015;AIDS
