@@ -32,8 +32,10 @@ def get_dataset_params(name):
         QI_INDEX = [1, 2, 3]
         target_var = "disease"
         IS_CAT = [False, True, False]
-        max_numeric = {"age": None, "city_birth": None, "zip_code":None}
-
+        max_numeric = {"age": 50, "city_birth": None, "zip_code":50000}
+    else:
+        print(f"Not support {name} dataset")
+        raise ValueError
     return {
         'qi_index': QI_INDEX,
         'is_category': IS_CAT,
