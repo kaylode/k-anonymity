@@ -5,13 +5,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from argparse import Namespace
 
-from numpy.lib.stride_tricks import as_strided
 from anonymize import Anonymizer
-import datasets
 from models import classifier_evaluation
 from datasets import get_dataset_params
 from algorithms import read_tree
-import models
 
 methods = ['mondrian', 'classic_mondrian', 'topdown'] #['cluster', 'datafly']
 dataset = ['adult', 'cahousing', 'cmc', 'mgm', 'informs']  # italia
@@ -191,16 +188,16 @@ def run_anon_data_ml():
 if __name__ == '__main__':
 
     # Metric evaluation
-    run_anon_data()
-    plot_metric(
-        col = ["data", "method", "k", "ncp", "cav", "dm"],
-        metrics = metrics,
-        dataset=dataset,
-        methods=methods,
-        label_x= dataset,
-        label_y = metric_names,
-        figname='./demo/metrics2'
-    )
+    # run_anon_data()
+    # plot_metric(
+    #     col = ["data", "method", "k", "ncp", "cav", "dm"],
+    #     metrics = metrics,
+    #     dataset=dataset,
+    #     methods=methods,
+    #     label_x= dataset,
+    #     label_y = metric_names,
+    #     figname='./demo/metrics'
+    # )
 
     run_anon_data_ml()
     plot_metric_ml(
