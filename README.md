@@ -11,11 +11,11 @@
 - [ ] (Optional) Simple Deanonymize Attack
 
 
-## Reports:
+## Reports
 Report edit link:
 [![report](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.overleaf.com/4786864492ypscdyrmpwzd)
 
-## Folder Structure:
+## Folder Structure
 - A dataset must comes with a .csv file contains features information and a hierarchy folder which contains predefined generalization hierarchies for its QID attributes. 
 ```
 this repo
@@ -48,7 +48,7 @@ which describes this tree:
 
 -------------------------------------------------------------
 
-## Executing:
+## Executing
 To anonymize dataset, run:
 ```
 python anonymize.py --method=<model_type> --k=<k-anonymity> --dataset=<dataset_name>
@@ -61,7 +61,7 @@ To run evaluation metrics on every combination of algorithms, datasets and value
 python visualize.py
 ```
 
-## K-Anonymity examples:
+## K-Anonymity examples
 
 | Before anonymization | After anonymization with k = 2 |
 |:-------------------------:|:-------------------------:|
