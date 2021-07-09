@@ -56,10 +56,14 @@ python anonymize.py --method=<model_type> --k=<k-anonymity> --dataset=<dataset_n
 - **model_type**: [mondrian | classic_mondrian | mondrian_ldiv | topdown | cluster | datafly]
 - **dataset_name**: [adult | cahousing | cmc | mgm | informs | italia]
 
+Results will be in ```results/{dataset}/{method}``` folder
+
 To run evaluation metrics on every combination of algorithms, datasets and value k, run:
 ```
 python visualize.py
 ```
+
+Results will be in ```demo/{metrics.png, metrics_ml.png}``` 
 
 ## K-Anonymity examples
 
