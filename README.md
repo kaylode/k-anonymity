@@ -1,5 +1,5 @@
 # Differential Privacy using K-Anonymity
-## To-do list
+## ✔️ To-do list
 - [x] Run 6 methods on 6 datasets 
 - [x] Add L-diversity, Classic Mondrian (no hierarchies), Datafly algorithm
 - [x] Make NCP loss a separated module
@@ -11,7 +11,7 @@
 - [ ] (Optional) Simple Deanonymize Attack
 
 
-## Reports
+## 📖 Reports
 Report edit link:
 [![report](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.overleaf.com/4786864492ypscdyrmpwzd)
 
@@ -48,7 +48,7 @@ which describes this tree:
 
 -------------------------------------------------------------
 
-## Executing
+## 🌟 Executing
 To anonymize dataset, run:
 ```
 python anonymize.py --method=<model_type> --k=<k-anonymity> --dataset=<dataset_name>
