@@ -1,16 +1,21 @@
 
+from operator import sub
 import os
 import numpy as np
 import matplotlib.pyplot as plt
 from argparse import Namespace
+
+from numpy.lib.stride_tricks import as_strided
 from anonymize import Anonymizer
+import datasets
 from models import classifier_evaluation
 from datasets import get_dataset_params
 from algorithms import read_tree
+import models
 
-methods = ['mondrian', 'classic_mondrian', 'topdown'] #, 'cluster', 'datafly']
-dataset = ['adult', 'cahousing', 'cmc', 'mgm', 'informs', 'italia'] #,  [
-k_array = [2, 5, 10, 20, 50, 100]
+methods = ['mondrian', 'classic_mondrian', 'topdown'] #['cluster', 'datafly']
+dataset = ['adult', 'cahousing', 'cmc', 'mgm', 'informs']  # italia
+k_array = [i for i in range(10, 110, 10)]
 
 metrics = ['ncp', 'cav', 'dm']
 ml_metrics = ['knn', 'svm', 'rf']
@@ -33,10 +38,12 @@ def sub_plot(result, dataset, methods, metrics, label_x, label_y, figname):
     
     for row, metric in enumerate(metrics):
         for col, data in enumerate(dataset):
+            data = data.encode('utf-8')
             sub_data = result[ (data == result['data']) ]
             for i, method in enumerate(methods):
+                method = method.encode('utf-8')
                 sub = sub_data[ (method == sub_data['method'])]
-                axis[row, col].plot(sub['k'], sub[metric], color = lcolors[i], label=sub['method'][0])
+                axis[row, col].plot(sub['k'], sub[metric], color = lcolors[i], label=sub['method'][0].decode('utf-8'))
 
     labels_handles = {
         label: handle for ax in fig.axes for handle, label in zip(*ax.get_legend_handles_labels())
@@ -69,13 +76,20 @@ def sub_plot_ml(result, dataset, methods, models, label_x, label_y, figname):
     fig, axis = plt.subplots(nrows = len(models), ncols = len(dataset), figsize = (35, 30))
     
     for col, model in enumerate(models):
-        sub_data1 = result[(model == result['model'])]
+        model = model.encode('utf-8')
+        sub_data1 = result[(model == result['model'])] 
         for row, data in enumerate(dataset):
+            data = data.encode('utf-8')
             sub_data2 = sub_data1[(data == sub_data1['data'])]
+
             for i, method in enumerate(methods):
+                method = method.encode('utf-8')
                 sub_data3 = sub_data2[(method == sub_data2['method'])]
-                axis[col, row].plot(sub_data3['k'], sub_data3["anon_f1"], color = lcolors[i], label=sub_data3['method'][0])
-                
+                if i == 0:
+                    # Baseline score
+                    axis[col, row].plot(sub_data3['k'], sub_data3["ori_f1"], '--', color = 'black', label="Baseline")
+                axis[col, row].plot(sub_data3['k'], sub_data3["anon_f1"], color = lcolors[i], label= sub_data3['method'][0].decode('utf-8'))
+            
     labels_handles = {
         label: handle for ax in fig.axes for handle, label in zip(*ax.get_legend_handles_labels())
     }
@@ -101,17 +115,12 @@ def sub_plot_ml(result, dataset, methods, models, label_x, label_y, figname):
     plt.savefig(figname)
     plt.show()
 
-def plot_metric(col, metrics, label_x, label_y, figname):
+def plot_metric(col, dataset, methods, metrics, label_x, label_y, figname):
     result = np.genfromtxt("metric_result", names = col, dtype = None)
-    dataset = np.unique(result['data'])
-    methods = np.unique(result['method'])
     sub_plot(result, dataset, methods, metrics, label_x, label_y, figname)
 
-def plot_metric_ml(col, label_x, label_y, figname):
-    result = np.genfromtxt("ml_metric_result_rp", names = col, dtype = None)
-    dataset = np.unique(result['data'])
-    methods = np.unique(result['method'])
-    models = np.unique(result['model'])
+def plot_metric_ml(col, dataset, methods, models, label_x, label_y, figname):
+    result = np.genfromtxt("ml_metric_result", names = col, dtype=None)
     sub_plot_ml(result, dataset, methods, models, label_x, label_y, figname)
 
 
@@ -182,19 +191,24 @@ def run_anon_data_ml():
 if __name__ == '__main__':
 
     # Metric evaluation
-    # run_anon_data()
-    # plot_metric(
-    #     col = ["data", "method", "k", "ncp", "cav", "dm"],
-    #     metrics = metrics,
-    #     label_x= dataset,
-    #     label_y = metric_names,
-    #     figname='./demo/metrics2'
-    # )
+    run_anon_data()
+    plot_metric(
+        col = ["data", "method", "k", "ncp", "cav", "dm"],
+        metrics = metrics,
+        dataset=dataset,
+        methods=methods,
+        label_x= dataset,
+        label_y = metric_names,
+        figname='./demo/metrics2'
+    )
 
     run_anon_data_ml()
-    # plot_metric_ml(
-    #     col = ["data", "method", "k", "model" ,"ori_f1", "anon_f1"],
-    #     label_x= dataset,
-    #     label_y = ml_metric_names,
-    #     figname='./demo/metrics_ml'
-    # )
+    plot_metric_ml(
+        col = ["data", "method", "k", "model" ,"ori_f1", "anon_f1"],
+        dataset=dataset,
+        methods=methods,
+        models=ml_metrics,
+        label_x= dataset,
+        label_y = ml_metric_names,
+        figname='./demo/metrics_ml'
+    )

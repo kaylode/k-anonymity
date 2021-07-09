@@ -66,11 +66,16 @@ def classifier_evaluation(
     if anon_csv is not None:
         # Train anonymized dataset
         # Split train/test dataset
-        train_features = one_hot_anon_df.iloc[train_indexes]
-        train_targets = [embeded_targets[i] for i in train_indexes]
         
-        val_features = one_hot_anon_df.iloc[val_indexes]
-        val_targets = [embeded_targets[i] for i in val_indexes]
+        # For supressed value, check only if index exists in dataframe
+        union = [i for i in train_indexes if i in list(one_hot_anon_df.index)]
+        train_features = one_hot_anon_df.loc[union]
+        train_targets = [embeded_targets[i] for i in union]
+        
+        # For supressed value, check only if index exists in dataframe
+        union = [i for i in val_indexes if i in list(one_hot_anon_df.index)]
+        val_features = one_hot_anon_df.iloc[union]
+        val_targets = [embeded_targets[i] for i in union]
     
         # Fit
         print("Fitting model on anonymized dataset")
