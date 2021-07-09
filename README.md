@@ -5,8 +5,8 @@
 - [x] Make NCP loss a separated module
 - [x] Implement DM, CAVG metrics 
 - [x] Implement classification models (basic classifier, clustering)
-- [ ] Run experiment on 6 datasets x 6 methods x 2 ML models
-- [ ] Finish report
+- [x] Run experiment on 6 datasets x 6 methods x 2 ML models
+- [x] Finish report
 - [ ] (Improvement) T-closeness method, Incognito Algorithm
 - [ ] (Optional) Simple Deanonymize Attack
 
@@ -15,6 +15,38 @@
 Report edit link:
 [![report](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.overleaf.com/4786864492ypscdyrmpwzd)
 
+## Folder Structure:
+- A dataset must comes with a .csv file contains features information and a hierarchy folder which contains predefined generalization hierarchies for its QID attributes. 
+```
+this repo
+│   anonymize.py
+|
+└───data  
+│   │
+│   └───adult
+│       │   adult.csv
+│       └───hierarchies
+│       │     adult_hierarchy_workclass.csv
+│       │     ....
+```
+
+- Here is an example for a generalization hierarchy of the 'workclass' attribute from ADULT dataset, described in ```adult_hierarchy_workclass.csv```, which is a csv file using **";" as delimiter**
+```
+Private;Non-Government;*
+Self-emp-not-inc;Non-Government;*
+Self-emp-inc;Non-Government;*
+Federal-gov;Government;*
+Local-gov;Government;*
+State-gov;Government;*
+Without-pay;Unemployed;*
+Never-worked;Unemployed;*
+```
+
+which describes this tree:
+
+<div align="center"><img width="450" alt="screen" src="demo/adult_workclass.PNG"></div>
+
+-------------------------------------------------------------
 
 ## Executing:
 To anonymize dataset, run:
@@ -23,6 +55,30 @@ python anonymize.py --method=<model_type> --k=<k-anonymity> --dataset=<dataset_n
 ```
 - **model_type**: [mondrian | classic_mondrian | mondrian_ldiv | topdown | cluster | datafly]
 - **dataset_name**: [adult | cahousing | cmc | mgm | informs | italia]
+
+To run evaluation metrics on every combination of algorithms, datasets and value k, run:
+```
+python visualize.py
+```
+
+## K-Anonymity examples:
+
+| Before anonymization | After anonymization with k = 2 |
+|:-------------------------:|:-------------------------:|
+|<img width="450" alt="screen" src="demo/italia_before.png"> | <img width="450" alt="screen" src="demo/italia_after.png"> |
+
+## Evaluation Metrics
+  
+| Evaluate anonymization using information loss metrics |
+|:-------------------------:|
+|<img width="1000" height="600" alt="screen" src="demo/metrics.png"> |
+|<img width="1000" height="600" alt="screen" src="demo/metrics2.png"> |
+  
+
+| Evaluate anonymization using classification models |
+|:-------------------------:|
+|<img width="1000" height="600" alt="screen" src="demo/metrics_ml.png"> |
+|<img width="1000" height="600" alt="screen" src="demo/metrics_ml2.png"> |
 
 
 
