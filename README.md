@@ -1,4 +1,4 @@
-# Differential Privacy using K-Anonymity
+# Data anonymization using k-Anonymity
 ## ✔️ Experiments
 - Provides 5 k-anonymization method: 
   - Datafly
