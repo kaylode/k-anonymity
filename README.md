@@ -1,19 +1,24 @@
 # Differential Privacy using K-Anonymity
-## ✔️ To-do list
-- [x] Run 6 methods on 6 datasets 
-- [x] Add L-diversity, Classic Mondrian (no hierarchies), Datafly algorithm
-- [x] Make NCP loss a separated module
-- [x] Implement DM, CAVG metrics 
-- [x] Implement classification models (basic classifier, clustering)
-- [x] Run experiment on 6 datasets x 6 methods x 2 ML models
-- [x] Finish report
-- [ ] (Improvement) T-closeness method, Incognito Algorithm
-- [ ] (Optional) Simple Deanonymize Attack
+## ✔️ Experiments
+- Provides 5 k-anonymization method: 
+  - Datafly
+  - Incognito 
+  - Topdown Greedy
+  - Classic Mondrian
+  - Basic Mondrian
+- Implements 3 anonymization metrics: 
+  - Equivalent Class size metric (CAVG)
+  - Discernibility Metric (DM)
+  - Normalized Certainty Penalty (NCP)
+- Implements 3 classification models: 
+  - Random Forests 
+  - Support Vector Machines 
+  - K-Nearest Neighbors
 
 
 ## 📖 Reports
-Report edit link:
-[![report](https://img.shields.io/badge/latex-%23008080.svg?style=for-the-badge&logo=latex&logoColor=white)](https://www.overleaf.com/4786864492ypscdyrmpwzd)
+- Report edit link: [link](./demo/report.pdf)
+- Slide link: [link](./demo/slides.pdf)
 
 ## Folder Structure
 - A dataset must comes with a .csv file contains features information and a hierarchy folder which contains predefined generalization hierarchies for its QID attributes. 
